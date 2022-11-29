@@ -44,7 +44,7 @@ gdf_station = gdf_station.drop_duplicates(['geometry'], keep='first')
 gdf_bike = gdf_bike.drop_duplicates(['geometry'], keep='first')
 #-----------------------------------
 # 최근린분석(250m)
-gdf_near = gpd.sjoin_nearest(gdf_station, gdf_bike, max_distance=250).drop(columns=['index_right'])
+gdf_near = gpd.sjoin_nearest(gdf_station, gdf_bike, max_distance=500, distance_col='dist').drop(columns=['index_right'])
 gdf_near.insert(len(gdf_near.columns) - 1, 'geometry', gdf_near.pop('geometry'))
 gdf_near.info()
 gdf_near['거치대수LCD'] = gdf_near['거치대수LCD'].fillna(0)
