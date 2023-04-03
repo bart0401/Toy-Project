@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tqdm import tqdm
 import leafmap.foliumap as leafmap
+import folium
 #%%
 # Geodataframe
 Tagert = gpd.read_file('Target_restaurant.gpkg',encoding='cp949')
@@ -26,28 +27,17 @@ for j in gpkg_list:
     temp['time'] = j.split('_')[1]+'minutes'
     buffer_list.append(temp)
 base = gpd.read_file('base.gpkg',encoding='cp949')
+#%%
+# save to html(use folium)
+m = road.explore(color='gray',tiles='https://map.pstatic.net/nrb/styles/basic/{z}/{x}/{y}.png', attr='ⓒNAVER',name="도로망",tooltip=True)
+buffer_list[3].explore(m=m, color='green',name="오토바이(30km/h, 소요시간 15분)",tooltip=True,style_kwds=dict(fillOpacity=0.3),legend=True)
+buffer_list[2].explore(m=m, color='red',name="오토바이(30km/h, 소요시간 10분)",tooltip=True,style_kwds=dict(fillOpacity=0.3))
+buffer_list[1].explore(m=m, color='blue',name="자전거(15km/h, 소요시간 15분)",tooltip=True,style_kwds=dict(fillOpacity=0.3))
+buffer_list[0].explore(m=m, color='green',name="자전거(15km/h, 소요시간 10분)",tooltip=True,style_kwds=dict(fillOpacity=0.3))
+buffer_list[5].explore(m=m, color='yellow',name="보행(4km/h, 소요시간 15분)",tooltip=True,style_kwds=dict(fillOpacity=0.3))
+buffer_list[4].explore(m=m, color='orange',name="보행(4km/h, 소요시간 10분)",tooltip=True,style_kwds=dict(fillOpacity=0.3))
+Tagert.explore(m=m, color='Target',marker_kwds=dict(radius=7, fill=True),name="타겟(사장님)",tooltip=True)
+folium.LayerControl(control=True).add_to(m)  # use folium to add layer control
 
-
-# save to html
-m = leafmap.Map(center = [37.50469, 127.11985],
-                zoom = 6,
-                layers_control=True,
-                measure_control=False,
-                tiles='https://map.pstatic.net/nrb/styles/basic/{z}/{x}/{y}.png',
-                attr='ⓒNAVER'
-                )
-
-m.add_gdf(Tagert, layer_name = '대상')
-
-# https://leafmap.org/leafmap/#leafmap.leafmap.Map.add_gdf : color parameter is not working
-m.add_gdf(buffer_list[4], layer_name = '보행(4km/h, 소요시간 10분)', fill_colors=["red", "green", "blue"])
-m.add_gdf(buffer_list[5], layer_name = '보행(4km/h, 소요시간 15분)', fill_colors=["red", "green", "blue"])
-m.add_gdf(buffer_list[0], layer_name = '자전거(15km/h, 소요시간 10분)', fill_colors=["red", "green", "blue"])
-m.add_gdf(buffer_list[1], layer_name = '자전거(15km/h, 소요시간 15분)', fill_colors=["red", "green", "blue"])
-m.add_gdf(buffer_list[2], layer_name = '오토바이(30km/h, 소요시간 10분)', fill_colors=["red", "green", "blue"])
-m.add_gdf(buffer_list[3], layer_name = '오토바이(30km/h, 소요시간 15분)', fill_colors=["red", "green", "blue"])
-
-m.add_gdf(road, layer_name = '도로망', fill_colors=["red", "green", "blue"])
-
-m.to_html('Visualize results.html')
+m.save('Visualize results.html')
 #%%
