@@ -4,3 +4,4 @@
 2. MNUM MAKER.EXE 프로그램 제작
 3. PNUJUSO.EXE 프로그램 제작
 4. 배달서비스 권역 분석
+5. 시계열 분석
