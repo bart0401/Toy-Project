@@ -8,8 +8,8 @@ from geopandas.explore import _categorical_legend
 
 import pyproj
 pyproj_path = os.path.join(os.path.dirname(pyproj.__file__), 'proj_dir', 'share', 'proj')
-pyproj.datadir.set_data_dir(pyproj_path)
 os.environ['PROJ_LIB'] = pyproj_path
+pyproj.datadir.set_data_dir(pyproj_path)
 #%%
 # Geodataframe
 Tagert = gpd.read_file('Target_restaurant.gpkg',encoding='cp949')
