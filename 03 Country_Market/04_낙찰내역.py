@@ -13,8 +13,8 @@ from sqlalchemy import create_engine
 engine = create_engine("postgresql://postgres:1234@localhost:5432/country_market", isolation_level='AUTOCOMMIT')
 #%%
 # input
-MyServiceKey = "egrKlZpjQYDdREn7xHwIw9UGDINe%2FGXaUEGS0Nouzwd3MpQP1MBpIljVa12%2BDW8LIY4Q38hbEoj09II1N6vP7w%3D%3D"
-
+MyServiceKey = ""
+#%%
 # 사용자 정의함수 : 낙찰내역 데이터 수집
 def country_market_who(start, end):
     url_base = "https://apis.data.go.kr/1230000/ScsbidInfoService/getScsbidListSttusServc?"
