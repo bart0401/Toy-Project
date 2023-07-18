@@ -15,7 +15,7 @@ engine = create_engine("postgresql://postgres:1234@localhost:5432/country_market
 class collect_info:
     def __init__(self):
         # 서비스키
-        self.MyServiceKey = "egrKlZpjQYDdREn7xHwIw9UGDINe%2FGXaUEGS0Nouzwd3MpQP1MBpIljVa12%2BDW8LIY4Q38hbEoj09II1N6vP7w%3D%3D"
+        self.MyServiceKey = ""
         # URL
         self.url1 = "https://apis.data.go.kr/1230000/BidPublicInfoService04/getBidPblancListInfoServc01?"  # 입찰공고정보
         self.url2 = "http://apis.data.go.kr/1230000/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServc?"  # 사전규격
