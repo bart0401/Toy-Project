@@ -7,7 +7,8 @@
 # package
 import pandas as pd
 from sqlalchemy import create_engine
-engine = create_engine("postgresql://postgres:1234@localhost:5432/country_market", isolation_level='AUTOCOMMIT')
+# engine = create_engine("postgresql://postgres:1234@localhost:5432/country_market", isolation_level='AUTOCOMMIT')
+engine = create_engine("mysql+pymysql://root:1234@localhost:3306/country_market", isolation_level='AUTOCOMMIT')
 #%%
 # 통합칼럼 생성
 df1 = pd.read_excel('입찰공고조회 칼럼.xlsx',header=None)
