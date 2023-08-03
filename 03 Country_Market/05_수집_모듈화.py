@@ -54,4 +54,4 @@ raw_data1 = collect_info().country_market(url1)
 raw_data2 = collect_info().country_market(url2)
 raw_data3 = collect_info().country_market(url3)
 #%%
-# idea thinking
+# idea thinking / making process
