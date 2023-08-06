@@ -10,7 +10,7 @@ import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from sqlalchemy import create_engine
-engine = create_engine("postgresql://postgres:1234@localhost:5432/country_market", isolation_level='AUTOCOMMIT')
+engine = create_engine("mysql+pymysql://root:1234@localhost:3306/country_market", isolation_level='AUTOCOMMIT')
 #%%
 class collect_info:
     def __init__(self):
