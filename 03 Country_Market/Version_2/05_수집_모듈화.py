@@ -14,26 +14,22 @@ engine = create_engine("mysql+pymysql://root:1234@localhost:3306/country_market"
 #%%
 class collect_info:
     def __init__(self):
-        # 서비스키
-        self.MyServiceKey = ""
-        # URL
-        self.url1 = "https://apis.data.go.kr/1230000/BidPublicInfoService04/getBidPblancListInfoServc01?"  # 입찰공고정보
-        self.url2 = "http://apis.data.go.kr/1230000/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServc?"  # 사전규격
-        self.url3 = "https://apis.data.go.kr/1230000/ScsbidInfoService/getScsbidListSttusServc?"  # 낙찰내역
-        # 수집기간
+        # 수집기간 설정
         if datetime.today().weekday() == 0:
             startdays = 3
         else:
             startdays = 1
         self.end = (datetime.now() - relativedelta(days=1)).strftime('%Y%m%d')
         self.start = (datetime.now() - relativedelta(days=startdays)).strftime('%Y%m%d')
+        # 서비스키
+        self.MyServiceKey = ""
 
-    def country_market(self, url_base):
-        self.url_base = url_base
+    # API 데이터 수집
+    def country_market(self, url, category, table_name):
         table = pd.DataFrame()
         page = 1
         while True:
-            url_base_m = url_base + '&inqryBgnDt=' + self.start + '0000' + '&inqryEndDt=' + self.end + '2359' + '&pageNo=' \
+            url_base_m = url + '&inqryBgnDt=' + self.start + '0000' + '&inqryEndDt=' + self.end + '2359' + '&pageNo=' \
                          + str(page) + '&numOfRows=999' + '&ServiceKey=' + self.MyServiceKey + '&type=json' + '&inqryDiv=1'
             r = requests.get(url_base_m, verify=False).json()
             data = r['response']['body']['items']
@@ -43,14 +39,19 @@ class collect_info:
             table = pd.concat([table, df])
             page += 1
             time.sleep(1)
-        return table
+        # 칼럼 한글화
+        df_col = pd.read_sql(fr"SELECT * FROM 칼럼_나라장터 where 칼럼종류 = '{category}'", con=engine)
+        dict_col = dict(zip(df_col['영문칼럼'], df_col['한글칼럼']))
+        table.rename(columns=dict_col, inplace=True)
+        # DB 업로드
+        table.to_sql(name=table_name, con=engine, if_exists='append', index=False)
 #%%
-# API URL
-url1 = "https://apis.data.go.kr/1230000/BidPublicInfoService04/getBidPblancListInfoServc01?"  # 입찰공고정보
-url2 = "http://apis.data.go.kr/1230000/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServc?"  # 사전규격
-url3 = "https://apis.data.go.kr/1230000/ScsbidInfoService/getScsbidListSttusServc?"  # 낙찰내역
-
-raw_data1 = collect_info().country_market(url1)
-raw_data2 = collect_info().country_market(url2)
-raw_data3 = collect_info().country_market(url3)
+if __name__ == '__main__':
+    info = [
+            ("https://apis.data.go.kr/1230000/BidPublicInfoService04/getBidPblancListInfoServc01?", "입찰공고", "수집_입찰공고"),
+            ("http://apis.data.go.kr/1230000/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServc?", "사전규격", "수집_사전규격"),
+            ("https://apis.data.go.kr/1230000/ScsbidInfoService/getScsbidListSttusServc?", "낙찰내역", "수집_낙찰내역")
+           ]
+    for url, category, table_name in info:
+        collect_info().country_market(url, category, table_name)
 #%%
