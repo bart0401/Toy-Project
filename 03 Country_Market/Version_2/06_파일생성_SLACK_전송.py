@@ -24,7 +24,7 @@ df_pre = pd.read_sql(f"SELECT DISTINCT * "
                      f"FROM 수집_사전규격 "
                      f"WHERE 품명 REGEXP '{keywords}'"
                      f"ORDER BY 등록일시 DESC", con=engine)
-# https://www.g2b.go.kr:8082/ep/preparation/prestd/preStdDtl.do?preStdRegNo=1328549
+df_pre['사전규격URL'] = 'https://www.g2b.go.kr:8082/ep/preparation/prestd/preStdDtl.do?preStdRegNo=' + df_pre['사전규격등록번호']
 
 # 입찰공고
 df_bid = pd.read_sql(f"SELECT DISTINCT 입찰공고번호, 입찰공고명, 배정예산금액, 추정가격, 입찰공고일시, "
