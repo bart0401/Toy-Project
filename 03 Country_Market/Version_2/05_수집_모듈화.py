@@ -43,15 +43,15 @@ class collect_info:
         df_col = pd.read_sql(fr"SELECT * FROM 칼럼_나라장터 where 칼럼종류 = '{category}'", con=engine)
         dict_col = dict(zip(df_col['영문칼럼'], df_col['한글칼럼']))
         table.rename(columns=dict_col, inplace=True)
+        table.drop_duplicates(keep='first', inplace=True)
         # DB 업로드
         table.to_sql(name=table_name, con=engine, if_exists='append', index=False)
 #%%
-if __name__ == '__main__':
-    info = [
-            ("https://apis.data.go.kr/1230000/BidPublicInfoService04/getBidPblancListInfoServc01?", "입찰공고", "수집_입찰공고"),
-            ("http://apis.data.go.kr/1230000/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServc?", "사전규격", "수집_사전규격"),
-            ("https://apis.data.go.kr/1230000/ScsbidInfoService/getScsbidListSttusServc?", "낙찰내역", "수집_낙찰내역")
-           ]
-    for url, category, table_name in info:
-        collect_info().country_market(url, category, table_name)
+info = [
+        ("https://apis.data.go.kr/1230000/BidPublicInfoService04/getBidPblancListInfoServc01?", "입찰공고", "수집_입찰공고"),
+        ("http://apis.data.go.kr/1230000/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServc?", "사전규격", "수집_사전규격"),
+        ("https://apis.data.go.kr/1230000/ScsbidInfoService/getScsbidListSttusServc?", "낙찰내역", "수집_낙찰내역")
+       ]
+for url, category, table_name in info:
+    collect_info().country_market(url, category, table_name)
 #%%
