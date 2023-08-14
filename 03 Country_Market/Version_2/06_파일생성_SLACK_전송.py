@@ -12,11 +12,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from sqlalchemy import create_engine
 engine = create_engine("mysql+pymysql://root:1234@localhost:3306/country_market", isolation_level='AUTOCOMMIT')
 #%%
-keyword_list = ['빅데이터','데이터','딥러닝','머신러닝','기계학습','인공지능', '알고리즘', 'AI', '데이터분석', '데이터 분석',
-                '인구활력','인구소멸','지방소멸','인구활력','인구감소','인구정책','인구시책','활성화계획','인구',
-                '탄소중립', '상권', '점포개발', '입지', 'CRM', '유통분석', 'GIS','공간분석',
-                '전세사기', '소유자정보', '주택시세', '부동산', '시세', '부동산입지',
-                '은행', '소상공인', '국방부', '부동산원', '농림','축산', '감염']
+keyword_list = ['데이터', '딥러닝', '머신러닝', '기계학습', '인공지능', '알고리즘', '생활권', '기본계획', '관리계획', '성장관리'
+                '인구','소멸','활성화계획','탄소중립', '상권', '점포', '입지', '유통', 'GIS','공간', '전세사기', '소유자',
+                '주택', '부동산', '시세', '은행', '소상공인', '국방부', '부동산원', '농림', '축산', '감염', 'AI','CRM']
 keywords = '|'.join(keyword_list)
 
 # 사전규격
