@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 engine = create_engine("mysql+pymysql://root:1234@localhost:3306/country_market", isolation_level='AUTOCOMMIT')
 #%%
 # input
-MyServiceKey = "egrKlZpjQYDdREn7xHwIw9UGDINe%2FGXaUEGS0Nouzwd3MpQP1MBpIljVa12%2BDW8LIY4Q38hbEoj09II1N6vP7w%3D%3D"
+MyServiceKey = ""
 #%%
 # 사용자 정의함수 : 낙찰내역 데이터 수집
 def country_market_who(start, end):
