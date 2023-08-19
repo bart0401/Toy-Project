@@ -10,5 +10,7 @@ df = pd.read_sql(f"SELECT * FROM country_market.분석_낙찰내역 where 입찰
                  f"위탁|직무교육|제작|연구|역량|ISP|기능 강화|엔지니어링SW'", con=engine)
 df1 = df[['입찰공고번호','입찰공고명','최종낙찰업체명','최종낙찰금액', '최종낙찰률','수요기관명']]
 df1['입찰공고년월'] = df1['입찰공고번호'].str[:6]  # df1.loc[:, '입찰공고년월'] = df1['입찰공고번호'].str[:6]
-df1.info()
+#%%
+# DB업로드
+df1.to_sql(name='특별_낙찰내역', con=engine, if_exists='append', index=False)
 #%%
