@@ -55,5 +55,6 @@ response = client.files_upload(
     channels="#country_market",
     file=report_xlsx,
     text=report_xlsx,
-    title=report_xlsx)
+    title=report_xlsx
+)
 #%%
