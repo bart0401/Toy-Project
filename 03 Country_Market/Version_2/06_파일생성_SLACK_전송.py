@@ -43,7 +43,7 @@ df_who['분석과업여부'] = df_who['입찰공고명'].apply(lambda x :1 if '�
 # 파일저장시점 설정
 yesterday = (datetime.now() - relativedelta(days=1)).strftime('%Y%m%d')
 
-# 데이터프레임을 엑셀로 저장
+# 데이터프레임을 엑셀파일로 저장
 writer = pd.ExcelWriter(fr'조달청_서면보고_{yesterday}.xlsx', engine='xlsxwriter')
 df_pre.to_excel(writer, sheet_name= '사전규격')
 df_bid.to_excel(writer, sheet_name= '입찰공고')
