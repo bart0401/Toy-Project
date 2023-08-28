@@ -42,6 +42,7 @@ df_who['분석과업여부'] = df_who['입찰공고명'].apply(lambda x :1 if '�
 #%%
 # 파일저장시점 설정
 yesterday = (datetime.now() - relativedelta(days=1)).strftime('%Y%m%d')
+yesterday1 = (datetime.now() - relativedelta(days=1)).strftime('%Y-%m-%d')
 
 # 데이터프레임을 엑셀파일로 저장
 writer = pd.ExcelWriter(fr'조달청_서면보고_{yesterday}.xlsx', engine='xlsxwriter')
@@ -50,15 +51,27 @@ df_bid.to_excel(writer, sheet_name= '입찰공고')
 df_who.to_excel(writer, sheet_name= '낙찰내역')
 writer.save()
 #%%
-# 서면보고용 엑셀파일을 슬랙으로 전송
+# 슬랙(Slack) 메신저 활용
 report_xlsx = [x for x in os.listdir() if '조달청_서면보고' in x][-1]
 
 client = WebClient(token='')
 
+# 파일 전송
 response = client.files_upload(
     channels="#country_market",
     file=report_xlsx,
     text=report_xlsx,
     title=report_xlsx
 )
+
+# 메세지 전송
+if df_pre[df_pre['접수일시'].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
+    client.chat_postMessage(
+        channels="#country_market",
+        text='낙찰내역 검토 필요')
+
+if df_bid[df_bid['입찰공고일시'].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
+    client.chat_postMessage(
+        channels="#country_market",
+        text='입찰공고 검토 필요')
 #%%
