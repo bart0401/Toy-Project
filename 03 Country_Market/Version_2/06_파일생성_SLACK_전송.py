@@ -70,7 +70,6 @@ if df_pre[df_pre['접수일시'].str[:10]==yesterday1]['분석과업여부'].sum
         channels="#country_market",
         text='낙찰내역 검토 필요'
     )
-
 if df_bid[df_bid['입찰공고일시'].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
     client.chat_postMessage(
         channels="#country_market",
