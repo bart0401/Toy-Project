@@ -65,14 +65,12 @@ response = client.files_upload(
 )
 
 # 메세지 전송
-if df_pre[df_pre['접수일시'].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
-    client.chat_postMessage(
+def send_message(df, column, message):
+    if df[df[column].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
+        client.chat_postMessage(
         channels="#country_market",
-        text='낙찰내역 검토 필요'
-    )
-if df_bid[df_bid['입찰공고일시'].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
-    client.chat_postMessage(
-        channels="#country_market",
-        text='입찰공고 검토 필요'
-    )
+        text=message)
+
+send_message(df_pre, '접수일시', '낙찰내역 검토 필요')
+send_message(df_bid, '입찰공고일시', '입찰공고 검토 필요')
 #%%
