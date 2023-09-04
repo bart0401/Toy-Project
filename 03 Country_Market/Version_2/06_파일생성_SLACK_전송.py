@@ -45,11 +45,10 @@ yesterday = (datetime.now() - relativedelta(days=1)).strftime('%Y%m%d')
 yesterday1 = (datetime.now() - relativedelta(days=1)).strftime('%Y-%m-%d')
 
 # 데이터프레임을 엑셀파일로 저장
-writer = pd.ExcelWriter(fr'조달청_서면보고_{yesterday}.xlsx', engine='xlsxwriter')
-df_pre.to_excel(writer, sheet_name= '사전규격')
-df_bid.to_excel(writer, sheet_name= '입찰공고')
-df_who.to_excel(writer, sheet_name= '낙찰내역')
-writer.save()
+with pd.ExcelWriter(fr'조달청_서면보고_{yesterday}.xlsx', engine='xlsxwriter') as writer:
+    df_pre.to_excel(writer, sheet_name= '사전규격')
+    df_bid.to_excel(writer, sheet_name= '입찰공고')
+    df_who.to_excel(writer, sheet_name= '낙찰내역')
 #%%
 # 슬랙(Slack) 메신저 활용
 report_xlsx = [x for x in os.listdir() if '조달청_서면보고' in x][-1]
