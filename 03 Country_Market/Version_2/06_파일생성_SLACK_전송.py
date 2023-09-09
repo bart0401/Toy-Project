@@ -42,7 +42,7 @@ df_who['분석과업여부'] = df_who['입찰공고명'].apply(lambda x :1 if '�
 #%%
 # 파일저장시점 설정
 yesterday = (datetime.now() - relativedelta(days=1)).strftime('%Y%m%d')
-yesterday1 = (datetime.now() - relativedelta(days=1)).strftime('%Y-%m-%d')
+yesterday_type = (datetime.now() - relativedelta(days=1)).strftime('%Y-%m-%d')
 
 # 데이터프레임을 엑셀파일로 저장
 with pd.ExcelWriter(fr'조달청_서면보고_{yesterday}.xlsx', engine='xlsxwriter') as writer:
@@ -65,7 +65,7 @@ response = client.files_upload(
 
 # 메세지 전송
 def send_message(df, column, message):
-    if df[df[column].str[:10]==yesterday1]['분석과업여부'].sum() > 0:
+    if df[df[column].str[:10]==yesterday_type]['분석과업여부'].sum() > 0:
         client.chat_postMessage(
         channels="#country_market",
         text=message)
