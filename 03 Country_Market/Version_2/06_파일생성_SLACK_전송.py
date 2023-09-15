@@ -65,9 +65,8 @@ response = client.files_upload(
     title=report_xlsx
 )
 
-# 메세지 전송
+# 메세지 전송 (df: dataframe, column: 시점칼럼, column1: 기준칼럼, message: 전달내용)
 def send_message(df, column, column1, message):
-    # df: dataframe, column: 시점칼럼, column1: 기준칼럼, message: 전달내용
     if df[df[column].str[:10]==yesterday_type][column1].sum() > 0:
         client.chat_postMessage(
         channels="#country_market",
