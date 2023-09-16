@@ -54,7 +54,6 @@ with pd.ExcelWriter(fr'조달청_서면보고_{yesterday}.xlsx', engine='xlsxwri
 #%%
 # 슬랙(Slack) 메신저 활용
 report_xlsx = [x for x in os.listdir() if '조달청_서면보고' in x][-1]
-
 client = WebClient(token='')
 
 # 파일 전송
