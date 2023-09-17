@@ -67,9 +67,7 @@ response = client.files_upload(
 # 메세지 전송 (df: dataframe, column: 시점칼럼, column1: 기준칼럼, message: 전달내용)
 def send_message(df, column, column1, message):
     if df[df[column].str[:10]==yesterday_type][column1].sum() > 0:
-        client.chat_postMessage(
-        channels="#country_market",
-        text=message)
+        client.chat_postMessage(channels="#country_market", text=message)
 
 send_message(df_pre, '접수일시', '분석과업여부', '낙찰내역 검토 필요')
 send_message(df_bid, '입찰공고일시', '분석과업여부', '입찰공고 검토 필요')
