@@ -19,7 +19,7 @@ keyword_list = [
 ]
 keywords = '|'.join(keyword_list)
 #%%
-# 사전규격
+# 사전규격 : df_pre
 df_pre = pd.read_sql(f"SELECT DISTINCT * "
                      f"FROM 수집_사전규격 "
                      f"WHERE 품명 REGEXP '{keywords}'"
@@ -27,7 +27,7 @@ df_pre = pd.read_sql(f"SELECT DISTINCT * "
 df_pre['사전규격URL'] = 'https://www.g2b.go.kr:8082/ep/preparation/prestd/preStdDtl.do?preStdRegNo=' + df_pre['사전규격등록번호']
 df_pre['분석과업여부'] = df_pre['품명'].apply(lambda x: 1 if '분석' in x else 0)
 
-# 입찰공고
+# 입찰공고 : df_bid
 df_bid = pd.read_sql(f"SELECT DISTINCT 입찰공고번호, 입찰공고명, 배정예산금액, 추정가격, 입찰공고일시, "
                                      f"입찰마감일시, 개찰일시, 용역구분명, 공동수급구성방식명, 입찰공고상세URL "
                      f"FROM 수집_입찰공고 "
@@ -35,7 +35,7 @@ df_bid = pd.read_sql(f"SELECT DISTINCT 입찰공고번호, 입찰공고명, 배�
                      f"ORDER BY 입찰공고일시 DESC", con=engine)
 df_bid['분석과업여부'] = df_bid['입찰공고명'].apply(lambda x: 1 if '분석' in x else 0)
 
-# 낙찰내역
+# 낙찰내역 : df_who
 df_who = pd.read_sql(f"SELECT DISTINCT * "
                      f"FROM 수집_낙찰내역 "
                      f"WHERE 입찰공고명 REGEXP '{keywords}'"
